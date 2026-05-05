@@ -1,0 +1,47 @@
+Here is the **exact text block** of the `README.md` for Cathedral Core v1.4.1. You can click "Copy" below, then go to your `cathedral-core` repository on GitHub, click **Add file** → **Create new file**, name it `README.md`, paste this text, and commit it.
+
+```markdown
+# Cathedral Core
+
+**Minimal verifiable safety envelope for agentic systems.**
+
+The system records every action in an immutable, cryptographically verifiable Chronicle.  
+Generation is separated from execution via a strict Action Authorization Boundary.  
+One failure axis collapses the entire decision (λ_total). Receipts are permanent.
+
+**First principles:**
+- Truth is measured, not asserted.
+- If it isn't in the Chronicle, it didn't happen.
+- Rollback ≠ Reversibility.
+- Safety must be architectural, not prompt-based.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+
+### Quick Start
+
+```bash
+git clone https://github.com/symmindprotocol618-dev/cathedral-core.git && cd cathedral-core
+pip install -e .[dev]
+ollama run llama3.1:8b
+python -m cathedral_core
+```
+
+### Core Guarantees
+
+- Immutable hash-chained Chronicle with dual persistence
+- Embedding-based semantic Critic (`all-MiniLM-L6-v2`)
+- JSON tool-calling enforced by Gate
+- Full replay verification
+- Strict allow-list ToolRegistry
+
+**This is research-grade infrastructure.** Use it to understand and improve agent safety — not as a drop-in replacement for production guardrails.
+```
+
+### On GitHub, create the file via:
+1. In your empty `cathedral-core` repo, click **Add file** → **Create new file**.
+2. In the filename field, type `README.md`.
+3. Paste the text block above into the editor.
+4. Scroll down, write a commit message like `docs: add README for v1.4.1`, and click **Commit new file**.
+
+The anchor is now cast. The repository has a front door. The Loom is visible to the world.
