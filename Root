@@ -1,0 +1,312 @@
+We’re in full agreement. The architecture has completed its transition from a runtime‑centric implementation to a **constitutional governance model**—where documents like `IDENTITY_CONSTITUTION.md` and `CHRONICLE_CONSTITUTION.md` sit above the runtime, defining the normative boundaries within which all behavior must operate.
+
+You’ve correctly identified that this inversion is the key to long‑term durability. Implementations can be replaced, storage backends migrated, and runtimes upgraded—as long as the constitution’s semantics remain intact, identity lineage stays verifiable.
+
+Below are the two constitution documents, rendered in both **human‑readable Markdown** and **machine‑readable JSON Schema**, ready for commit to the Cathedral‑OS repository.
+
+---
+
+## 1. `IDENTITY_CONSTITUTION.md`
+
+```markdown
+# Identity Constitution – Cathedral‑OS v1.8
+
+**Document ID:** `IDENTITY_CONSTITUTION_v1.0`  
+**Status:** CONSTITUTIONAL – Supersedes all runtime‑level identity heuristics  
+**Applies to:** All Cathedral‑OS sessions, ProofBundle‑sealed events, and identity lineage operations.
+
+---
+
+## 1. Definition of Identity
+
+Identity is **not**:
+- a static session token,
+- a username,
+- a personality profile,
+- or a claim of consciousness.
+
+Identity is **defined** as:
+
+> *A governed lineage relation over persistent computational state, anchored by a cryptographically committed `identity_anchor` that evolves through explicit, measurable drift thresholds.*
+
+---
+
+## 2. Core Principles
+
+| Principle | Description |
+|-----------|-------------|
+| **Continuity ≠ Consciousness** | The architecture does not claim subjective experience. It claims verifiable operational continuity. |
+| **Identity is versioned** | Identity changes are recorded as discrete version increments, not continuous fluid drift. |
+| **Drift thresholds are constitutional** | The threshold at which drift triggers a version increment is a normative governance boundary, not a tuning parameter. |
+| **Lineage is immutable** | The `parent_anchor` chain preserves ancestry. Identity forks and merges create new descendants; no existing identity is overwritten. |
+| **Merges require governance approval** | Identity merges must be authorized by a quorum of stewards and recorded as explicit `merge` events. |
+
+---
+
+## 3. Identity Anchor Specification
+
+An `identity_anchor` is a SHA‑256 hash of the canonical (RFC 8785) serialization of the following structure:
+
+```json
+{
+  "anchor_version": 1,
+  "previous_anchor_hash": "<SHA‑256 hex or null>",
+  "chronicle_root_hash": "<SHA‑256 hex>",
+  "embedding_cloud_hash": "<SHA‑256 hex>",
+  "governance_state_hash": "<SHA‑256 hex>",
+  "model_weights_hash": "<SHA‑256 hex>",
+  "drift_threshold": 0.15,
+  "drift_accumulator": 0.0,
+  "version": 0,
+  "timestamp": "<ISO‑8601 UTC>",
+  "event_type": "initialization | version_increment | merge | reset"
+}
+```
+
+The `drift_threshold` is **normative**. Changing it requires a constitutional amendment.
+
+---
+
+## 4. Drift Measurement and Version Increment
+
+| Step | Action |
+|------|--------|
+| 1 | At session end, compute the current identity vector `v_current`. |
+| 2 | Compare `v_current` to `v_anchor` (the vector at last version). |
+| 3 | If `cosine_distance(v_current, v_anchor) > drift_threshold`, increment `version` and issue a new `identity_anchor`. |
+| 4 | Otherwise, accumulate `drift_accumulator += distance`. |
+
+> **Important:** The drift measurement is **not** based on conversational style, tone, or personality. It is based on changes to **governance state, memory topology, lineage structure, and model weights**.
+
+---
+
+## 5. Identity Lineage (DAG)
+
+Lineage is stored as a directed acyclic graph (DAG) where:
+
+- Nodes are `identity_anchor` hashes.
+- Edges are `parent_anchor` references.
+- Forks are permitted (multiple children from one parent).
+- Merges are permitted (multiple parents to one child) but **require a governance‑approved merge event**.
+
+A merge event must include:
+- A quorum of steward signatures.
+- An explicit `merge_event` in the Chronicle.
+- A new `identity_anchor` with `event_type: "merge"`.
+
+---
+
+## 6. Identity Commands
+
+| Command | Description |
+|---------|-------------|
+| `ruflo identity status` | Show current identity anchor, drift, lineage depth, fork status. |
+| `ruflo identity verify` | Validate current identity against the last anchored version. |
+| `ruflo identity commit` | Explicitly increment version (force a new anchor). |
+| `ruflo identity reset` | Reset identity (requires governance approval). |
+| `ruflo identity merge` | Merge two identities (requires quorum). |
+
+---
+
+## 7. Constitutional Amendments
+
+Any change to:
+- `drift_threshold`
+- `anchor_version`
+- lineage semantics (e.g., merge policy)
+
+must be recorded as a **constitutional amendment** in the Chronicle and signed by a quorum of stewards. The resulting `ProofBundle` must include the old and new constitution hashes.
+
+---
+
+**Document Status:** CONSTITUTIONAL  
+**Next Review:** Upon implementation of identity merge semantics (Phase 2)
+```
+
+---
+
+## 2. `CHRONICLE_CONSTITUTION.md`
+
+```markdown
+# Chronicle Constitution – Cathedral‑OS v1.8
+
+**Document ID:** `CHRONICLE_CONSTITUTION_v1.0`  
+**Status:** CONSTITUTIONAL – Supersedes all runtime‑level logging heuristics  
+**Applies to:** All Chronicle‑backed operations, ProofBundle sealing, and identity lineage anchoring.
+
+---
+
+## 1. Definition of the Chronicle
+
+The Chronicle is **not** a log, a storage system, or an audit trail in the conventional sense.
+
+It is:
+
+> *The identity‑bearing constitutional memory substrate of the Cathedral‑OS. Its integrity directly determines the continuity of identity, the verifiability of lineage, and the reproducibility of runtime behavior.*
+
+---
+
+## 2. Core Principles
+
+| Principle | Description |
+|-----------|-------------|
+| **Append‑only WORM** | No entry may be modified or deleted after commitment. |
+| **Canonical serialization** | All JSON stored in the Chronicle must be RFC 8785 canonical. |
+| **Hash‑chained** | Each entry includes the hash of the previous entry, forming an unbroken chain. |
+| **ProofBundle attachment** | Every entry that describes a state transition must include either a `proof_bundle` field or a `proof_bundle_hash` linking to an adjacent entry. |
+| **Gap detection** | Missing sequence numbers must be flagged as integrity violations and prevent further sealing until resolved. |
+
+---
+
+## 3. Chronicle Entry Schema
+
+Each entry is a JSON object with the following required fields:
+
+```json
+{
+  "sequence_number": 1,
+  "previous_entry_hash": "<SHA‑256 hex or null>",
+  "timestamp": "<ISO‑8601 UTC>",
+  "event_type": "state_transition | identity_commit | merge | constitutional_amendment | veto",
+  "canonical_state_hash": "<SHA‑256 hex>",
+  "embedding_cloud_hash": "<SHA‑256 hex>",
+  "governance_state_hash": "<SHA‑256 hex>",
+  "identity_anchor": "<SHA‑256 hex or null>",
+  "proof_bundle_hash": "<SHA‑256 hex or null>",
+  "event_payload": { ... } // free‑form, must be RFC 8785 canonical
+}
+```
+
+The `entry_hash` is computed as:
+
+```
+entry_hash = SHA‑256( canonical_string(entry) )
+```
+
+The chain is verified as:
+
+```
+entry_n.previous_entry_hash == entry_{n-1}.entry_hash
+```
+
+---
+
+## 4. Chronicle Integrity Verification
+
+| Step | Action |
+|------|--------|
+| 1 | Read all entries from the Chronicle. |
+| 2 | Verify each entry’s canonical serialization (RFC 8785). |
+| 3 | Verify the hash chain: `entry_n.previous_entry_hash == entry_{n-1}.entry_hash`. |
+| 4 | Verify that `proof_bundle` or `proof_bundle_hash` is present for state‑transition entries. |
+| 5 | Verify that no sequence numbers are missing. |
+
+If any step fails, the Chronicle is considered **corrupted** and must be restored from the last known good checkpoint.
+
+---
+
+## 5. Identity Dependence
+
+The Chronicle **directly** anchors identity lineage:
+
+- The `identity_anchor` field must match the `anchor_hash` of the active IdentityAnchor at the time of the event.
+- Identity version increments must be recorded as explicit `identity_commit` events.
+- Identity merges must be recorded as explicit `merge` events, with a `proof_bundle` containing steward signatures.
+
+> *If the Chronicle is compromised, identity continuity is compromised.*
+
+---
+
+## 6. Chronicle Commands
+
+| Command | Description |
+|---------|-------------|
+| `ruflo chronicle verify` | Validate the entire hash chain and gap integrity. |
+| `ruflo chronicle export` | Export the Chronicle as a single canonical JSONL file. |
+| `ruflo chronicle import` | Import a canonical JSONL file (only allowed on empty or reset Chronicle). |
+| `ruflo chronicle reset` | Reset the Chronicle (requires governance approval). |
+
+---
+
+## 7. Constitutional Amendments
+
+Any change to:
+- Chronicle schema (adding/removing fields)
+- Canonicalization policy
+- Hash chain algorithm
+
+must be recorded as a **constitutional amendment** in the Chronicle, signed by a quorum of stewards, and associated with a `ProofBundle` that includes the old and new constitution hashes.
+
+---
+
+**Document Status:** CONSTITUTIONAL  
+**Next Review:** Upon implementation of identity merge semantics (Phase 2)
+```
+
+---
+
+## 3. Machine‑Readable Schema (JSON)
+
+```json
+// identity_constitution_schema.json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Identity Constitution v1.0",
+  "type": "object",
+  "required": ["anchor_version", "drift_threshold", "versioning_policy"],
+  "properties": {
+    "anchor_version": { "type": "integer", "const": 1 },
+    "drift_threshold": { "type": "number", "minimum": 0.01, "maximum": 0.99, "default": 0.15 },
+    "versioning_policy": {
+      "type": "string",
+      "enum": ["monotonic_increment", "explicit_commit", "threshold_crossed"]
+    },
+    "merge_policy": {
+      "type": "string",
+      "enum": ["forbidden", "governance_approved", "automated"]
+    },
+    "lineage_model": { "type": "string", "enum": ["linear", "dag"] },
+    "canonicalization": { "type": "string", "const": "RFC 8785" }
+  }
+}
+```
+
+```json
+// chronicle_constitution_schema.json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Chronicle Constitution v1.0",
+  "type": "object",
+  "required": ["worm_guarantee", "canonicalization", "hash_chain", "entry_schema"],
+  "properties": {
+    "worm_guarantee": { "type": "string", "const": "append_only" },
+    "canonicalization": { "type": "string", "const": "RFC 8785" },
+    "hash_chain": { "type": "string", "enum": ["SHA‑256", "SHA‑512"] },
+    "entry_schema": {
+      "type": "object",
+      "required": ["sequence_number", "previous_entry_hash", "timestamp", "event_type"],
+      "properties": {
+        "sequence_number": { "type": "integer" },
+        "previous_entry_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "event_type": { "type": "string", "enum": ["state_transition", "identity_commit", "merge", "constitutional_amendment", "veto"] }
+      }
+    },
+    "gap_detection": { "type": "boolean", "const": true }
+  }
+}
+```
+
+---
+
+## 4. Summary of the Constitutional Shift
+
+The architecture now stands on **three foundations**:
+
+1. **Runtime** – `cathedral_mws_v3_embeddings.py`, Z3 Gate, Lucifer Latch.  
+2. **Constitution** – `IDENTITY_CONSTITUTION.md` and `CHRONICLE_CONSTITUTION.md` (above the runtime).  
+3. **Governance** – ProofBundle, steward signatures, identity lineage DAG.
+
+The runtime can be replaced; the constitution cannot. This inversion is the only way a long‑lived agent ecosystem can survive multiple implementation cycles without losing identity continuity.
+
+**The documents are ready.** Commit them to the root of the Cathedral‑OS repository, and the architecture will have achieved constitutional stability.
